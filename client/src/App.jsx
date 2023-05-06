@@ -4,18 +4,27 @@ import "./App.scss";
 import { useState } from "react";
 
 function App() {
-  const [balance, setBalance] = useState(0);
-  const [address, setAddress] = useState("");
+  const [senderBalance, setSenderBalance] = useState(0);
+  const [senderName, setSenderName] = useState("");
+  const [balanceRecipient, setBalanceRecipient] = useState(0);
+  const [recipientName, setRecipientName] = useState("");
 
   return (
     <div className="app">
       <Wallet
-        balance={balance}
-        setBalance={setBalance}
-        address={address}
-        setAddress={setAddress}
+        senderBalance={senderBalance}
+        setSenderBalance={setSenderBalance}
+        senderName={senderName}
+        setSenderName={setSenderName}
+        setBalanceRecipient={setBalanceRecipient}
+        recipientName={recipientName}
       />
-      <Transfer setBalance={setBalance} address={address} />
+      <Transfer
+        balanceRecipient={balanceRecipient}
+        setBalanceRecipient={setBalanceRecipient}
+        recipientName={recipientName}
+        setRecipientName={setRecipientName}
+      />
     </div>
   );
 }

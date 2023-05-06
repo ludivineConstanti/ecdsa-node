@@ -1,53 +1,29 @@
 import { useState } from "react";
-import server from "./server";
+import { onNameFieldChange } from "./utils";
 
-function Transfer({ address, setBalance }) {
-  const [sendAmount, setSendAmount] = useState("");
-  const [recipient, setRecipient] = useState("");
-
-  const setValue = (setter) => (evt) => setter(evt.target.value);
-
-  async function transfer(evt) {
-    evt.preventDefault();
-
-    try {
-      const {
-        data: { balance },
-      } = await server.post(`send`, {
-        sender: address,
-        amount: parseInt(sendAmount),
-        recipient,
-      });
-      setBalance(balance);
-    } catch (ex) {
-      alert(ex.response.data.message);
-    }
-  }
-
+function Transfer({
+  balanceRecipient,
+  setBalanceRecipient,
+  recipientName,
+  setRecipientName,
+}) {
   return (
-    <form className="container transfer" onSubmit={transfer}>
+    <div className="container transfer">
       <h1>Send Transaction</h1>
 
       <label>
-        Send Amount
+        Recipient's name
         <input
-          placeholder="1, 2, 3..."
-          value={sendAmount}
-          onChange={setValue(setSendAmount)}
-        ></input>
+          placeholder="Type an address, for example: Allan, Bob or Coco"
+          value={recipientName}
+          onChange={(e) => {
+            onNameFieldChange(e, setRecipientName, setBalanceRecipient);
+          }}
+        />
       </label>
 
-      <label>
-        Recipient
-        <input
-          placeholder="Type an address, for example: 0x2"
-          value={recipient}
-          onChange={setValue(setRecipient)}
-        ></input>
-      </label>
-
-      <input type="submit" className="button" value="Transfer" />
-    </form>
+      <div className="balance">Balance: {balanceRecipient}</div>
+    </div>
   );
 }
 
